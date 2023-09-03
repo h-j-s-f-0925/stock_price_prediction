@@ -59,9 +59,12 @@ def main():
         # モデル学習完了を示すプログレス更新
         progress.update(50, 100)  # 50%完了と仮定
         progress.update_message("モデルの学習が完了しました。...")
+        progress.update_message("予測結果の可視化をしています。...")
 
         # 予測
         future = model.make_future_dataframe(periods=365)
+        progress.update_message("モデルの予測をしています。...(時間がかかります)")
+        progress.update_message("model.predict(future)実施中")
         forecast = model.predict(future)
 
         # 予測結果の可視化

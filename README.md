@@ -33,3 +33,4 @@ ModuleNotFoundError: No module named 'streamlit.cli'
 
 - 参考サイト
     - https://qiita.com/irisu-inwl/items/9d49a14c1c67391565f8
+    - https://di-acc2.com/programming/python/20621/
