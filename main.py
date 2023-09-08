@@ -4,9 +4,13 @@ import yfinance as yf
 import streamlit as st
 
 from joblib import Memory
+
+import asyncio
+
 from prophet.plot import plot_plotly
 
-from common.common import load_model, get_data_for_ticker, get_data_for_tickers, ProgressBar
+from common.common import load_model, get_data_for_ticker, get_data_for_tickers, get_forecast_async
+from common.common import ProgressBar
 from common.common import cached_cross_validation, display_metrics
 
 
@@ -62,10 +66,7 @@ def main():
         progress.update_message("予測結果の可視化をしています。...")
 
         # 予測
-        future = model.make_future_dataframe(periods=365)
-        progress.update_message("モデルの予測をしています。...(時間がかかります)")
-        progress.update_message("model.predict(future)実施中")
-        forecast = model.predict(future)
+        forecast = asyncio.run(get_forecast_async(model))
 
         # 予測結果の可視化
         st.write(f"### {ticker} の予測結果")

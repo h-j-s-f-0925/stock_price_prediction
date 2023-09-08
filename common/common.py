@@ -13,9 +13,9 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 
-import pandas as pd
 from joblib import Memory
 
+import asyncio
 
 @st.cache_data
 def load_model():
@@ -35,6 +35,12 @@ def get_data_for_tickers(tickers, start, end):
     # 最も外側のインデックス（レベル0）をアンスタック
     df2 = pd.concat(dfs, axis=0, keys=tickers).unstack(0)
     return df2
+
+
+async def get_forecast_async(model):
+    future = model.make_future_dataframe(periods=365)
+    forecast = model.predict(future)
+    return forecast
 
 
 # プログレスバーの定義
