@@ -56,17 +56,19 @@ def main():
         # データ取得
         df = get_data_for_ticker(ticker, date_st, date_fn)
         data = df.reset_index().rename(columns={'Date': 'ds', 'Close': 'y'})
+        data_sampled = data.sample(frac=0.5)
 
         # モデルの学習
         model = load_model()
-        model.fit(data)
+        model.fit(data_sampled)
         # モデル学習完了を示すプログレス更新
-        progress.update(50, 100)  # 50%完了と仮定
+        progress.update(30, 100)  # 50%完了と仮定
         progress.update_message("モデルの学習が完了しました。...")
-        progress.update_message("予測結果の可視化をしています。...")
 
         # 予測
         forecast = asyncio.run(get_forecast_async(model))
+        progress.update(50, 100)  # 50%完了と仮定
+        progress.update_message("モデルの予測が完了しました。...")
 
         # 予測結果の可視化
         st.write(f"### {ticker} の予測結果")

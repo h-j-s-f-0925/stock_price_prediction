@@ -19,7 +19,7 @@ import asyncio
 
 @st.cache_data
 def load_model():
-    model = Prophet()
+    model = Prophet(daily_seasonality=False)
     return model
 
 @st.cache_data
@@ -72,7 +72,7 @@ memory = Memory("cache_directory", verbose=0)
 def cached_cross_validation(model, initial, period, horizon):
     return cross_validation(model, initial=initial, period=period, horizon=horizon)
 
-# 1. クロスバリデーションと性能指標の取得
+# クロスバリデーションと性能指標の取得
 def get_cross_validation_results(model, date_st, date_fn):
     # year_stとyear_endのスライダーから取得した情報を基に、initial、period、horizonを適切に設定する
     total_days = (date_fn - date_st).days
@@ -86,7 +86,7 @@ def get_cross_validation_results(model, date_st, date_fn):
     df_p['horizon'] = df_p['horizon'].dt.days
     return df_cv, df_p
 
-# 2. メトリクスの結果をグラフにプロット
+# メトリクスの結果をグラフにプロット
 def plot_metrics(df_p, result_option):
     fig, ax = plt.subplots(figsize=(10, 6))
     if result_option == "MSE":
@@ -133,7 +133,7 @@ def display_metrics(ticker, model, result_option, date_st, date_fn):
     progress.update(75, 100)  # 75%完了と仮定
 
     st.write(f'### 評価結果の可視化 {result_option}')
-    plot_metrics(df_p, result_option)
+    # plot_metrics(df_p, result_option)
     visualize_evaluation(df_cv, result_option)
     st.markdown("""
     - X軸 (horizon): これは予測が行われた未来の日数を示しています。たとえば、horizonが30 daysの場合、これは30日後の予測の精度を示しています。
