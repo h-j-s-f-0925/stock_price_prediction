@@ -1,1 +1,0 @@
-{"duration": 4.699280261993408, "input_args": {"model": "<prophet.forecaster.Prophet object at 0x000001DE97CDEA30>", "initial": "'775 days'", "period": "'387 days'", "horizon": "'387 days'"}}
