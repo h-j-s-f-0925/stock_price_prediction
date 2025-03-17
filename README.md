@@ -27,7 +27,7 @@ ModuleNotFoundError: No module named 'streamlit.cli'
 
 
 - 
-    - cyonda install holidays==0.10.5.2  
+    - conda install holidays==0.10.5.2  
 
 - conda install joblib
 
